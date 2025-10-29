@@ -1,0 +1,89 @@
+{
+  "name": "Cotización Dólar Diario – ARS",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7552c0a8-146c-43ad-ad2b-40675e5074db",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://open.er-api.com/v6/latest/USD",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5f0734e0-02f8-4778-b535-34c8bff3b7f2",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "sendTo": "pedroperez.arr@gmail.com",
+        "subject": "=",
+        "message": "=<div style=\"font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0d1b2a, #1b263b); color: #f0f0f0; padding: 20px; border-radius: 10px; max-width: 520px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.4);\">   <h2 style=\"text-align: center; color: #00b4d8;\">💸 Cotización del Dólar Hoy</h2>    <div style=\"text-align: center; font-size: 2.2rem; margin: 15px 0;\">     💵 1 USD = <strong>{{ $json[\"rates\"][\"ARS\"].toFixed(2) }}</strong> ARS 🇦🇷   </div>    <div style=\"background-color: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 10px;\">     <p><strong>📅 Fecha:</strong> {{ $json[\"time_last_update_utc\"] }}</p>     <p><strong>💹 Base:</strong> {{ $json[\"base_code\"] }}</p>   </div>    <p style=\"text-align: center; color: #90e0ef; margin-top: 20px;\">     Automatizado por <strong>n8n</strong> 🚀<br>     <em>Datos proporcionados por Open ER API</em>   </p> </div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "3bac51b0-8783-46f7-b8d8-9d05e79554fb",
+      "name": "Send a message",
+      "webhookId": "740de3ef-0193-4464-9932-76fee82b205b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "piDRxPdl5FwJSIW0",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "80d2744f-8580-42f8-980d-6817fb0ec4ec",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5cc0f4c16b936ee9c3be1f32afe5293166dd99aa652b31a17ee47503922ced7f"
+  },
+  "id": "OqqX9nXznUx5p3p7",
+  "tags": []
+}
